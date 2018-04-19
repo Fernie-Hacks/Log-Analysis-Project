@@ -52,7 +52,7 @@ Vagrant is the program that will download a Linux operating system and run it in
 Windows users: The Installer may ask you to grant network permissions to Vagrant or make a firewall exception. Be sure to allow this.
 
 Bringing up the database server
-Vagrant takes a configuration file called Vagrantfile that tells it how to start your Linux VM. All vagrant files for this project can be found in the vagrant folder of this repo[vagrant](vagrant). Once you have a copy of this in your machine go to that directory, then run ```cmd  vagrant up``` . Once completed you should see something like this:
+Vagrant takes a configuration file called Vagrantfile that tells it how to start your Linux VM. All vagrant files for this project can be found in the vagrant folder of this repo [vagrant](vagrant). Once you have a copy of this in your machine go to that directory, then run ```cmd  vagrant up``` . Once completed you should see something like this:
 
 *Successful vagrant up results: "Done installing PostgreSQL database!"*
 
