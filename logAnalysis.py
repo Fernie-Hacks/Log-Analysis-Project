@@ -41,13 +41,49 @@ def main():
     print("")
     
     
+    #Create a view for all the times an error occured in a particular day 
+    errorsTable = """
+        create view errorsTable as 
+            select date(time), count(*) as errorCount 
+                from log 
+                where status='404 NOT FOUND' 
+                group by date(time) 
+                order by date(time)  
+    """
+    #Create a view for all the views that were attempted in each day
+    viewsTable = """
+        create view viewsTable as
+            select date(time), count(*) as viewCount 
+                from log 
+                group by date(time) 
+                order by date(time)     
+    """
+    dbCursor.execute(errorsTable)
+    dbCursor.execute(viewsTable)
+    
+    #Create a table of the percentage of errors that occurred in each day 
+    errorPercent = """ 
+        create view errorPercent as
+            select viewsTable.date, (100.0*errorsTable.errorCount/viewsTable.viewCount) as percent
+                from errorsTable, viewsTable 
+                where errorsTable.date = viewsTable.date
+    
+    """
+    dbCursor.execute(errorPercent)
+    
+    moreThanOnePercent = """
+        select * 
+            from errorPercent 
+            where percent > 1;
+    """
+    
     #3. On which days did more than 1% of requests lead to errors?
-    #Join articles,log and authors tables count appearance of authors.name when author id's match and the website was visited
-    #dbCursor.execute("")
     print("3. On which days did more than 1% of requests lead to errors?")
-    #print(dbCursor.fetchall())
-
-
+    dbCursor.execute(moreThanOnePercent)
+    for (date, percent) in dbCursor.fetchall():
+        print("   {} - {}% errors".format(date, percent))
+    
+    print("")
 
 if __name__ == "__main__":
     main()
